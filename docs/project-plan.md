@@ -5,7 +5,7 @@
 
 ## 1. 定位
 
-學習系列中的一條平行路線，和 Software Engineering Workshop、Guardrail Workshop、AI Agent Tutorial 地位相同，由學習總入口（`frobel0520.github.io`）串連。AWS Lab 不是其他專案的母站，不搬移、不重用其他 repo 的程式碼；主題相關時以「延伸學習」連結互相指引。
+學習系列中的一條平行路線，和 Software Engineering Workshop、Guardrail Workshop、AI Agent Tutorial 地位相同，由 Learning Atlas（`frobel0520/learning-atlas`）串連。AWS Lab 不是其他專案的母站，不搬移、不重用其他 repo 的程式碼；主題相關時以「延伸學習」連結互相指引。
 
 ## 2. 設計原則
 

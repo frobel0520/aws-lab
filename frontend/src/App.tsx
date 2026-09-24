@@ -166,7 +166,7 @@ export default function App() {
           </a>
           <nav className="site-nav" aria-label="網站">
             <a href="#/">課程地圖</a>
-            <a href={HUB_URL}>學習總入口 ↗</a>
+            <a href={HUB_URL}>Learning Atlas ↗</a>
           </nav>
         </div>
       </header>
