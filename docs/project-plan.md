@@ -1,6 +1,6 @@
 # AWS Lab：Project Plan
 
-> 狀態：v0.1.0（Bedrock 路線完成，本機驗證通過，尚未部署）
+> 狀態：v0.1.0（Bedrock 路線完成，已部署至 https://frobel0520.github.io/aws-lab/）
 > 日期：2026-09-24
 
 ## 1. 定位
@@ -24,5 +24,5 @@
 | AWS-05 | 它是什麼、不是什麼 | Done |
 | AWS-06 | Token 計費 + 費用試算 | Done |
 | AWS-07 | Bedrock Guardrails + 檢查費用試算 | Done |
-| AWS-08 | 建立 GitHub repo、啟用 Pages、上線驗證 | Pending |
+| AWS-08 | 建立 GitHub repo、啟用 Pages、上線驗證 | Done |
 | AWS-09 | 部署與權限路線（IAM、S3 + CloudFront、Lambda） | Planned |
