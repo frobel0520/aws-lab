@@ -60,9 +60,39 @@ export const TRACKS: readonly Track[] = [
   {
     id: "deploy",
     title: "部署與權限",
-    description: "IAM、S3 + CloudFront、Lambda 等，把應用放上 AWS 需要的基本功。",
-    status: "planned",
-    topics: [],
+    description: "IAM、S3 + CloudFront、Lambda 與 GitHub Actions OIDC：把呼叫 Bedrock 的應用安全地放上 AWS。",
+    status: "ready",
+    topics: [
+      {
+        id: "iam",
+        title: "IAM 與權限評估",
+        summary: "誰可以對哪個資源做什麼：政策結構、評估規則，以及 Bedrock 的最小權限。",
+        lab: "權限評估",
+      },
+      {
+        id: "static-site",
+        title: "S3 + CloudFront 靜態網站",
+        summary: "私有 bucket 加 OAC、HTTPS 與快取策略，把 dist/ 正確部署上去。",
+        lab: "部署計畫",
+      },
+      {
+        id: "lambda",
+        title: "Lambda：呼叫 Bedrock 的後端",
+        summary: "憑證不能放前端：用 Lambda 包住 Converse，以及公開網址的成本風險。",
+        lab: "上線檢查",
+      },
+      {
+        id: "github-oidc",
+        title: "GitHub Actions 用 OIDC 部署",
+        summary: "不存長期金鑰：OIDC token、trust policy 與 sub 條件。",
+        lab: "sub 比對",
+      },
+      {
+        id: "architecture",
+        title: "把 Bedrock 應用放上 AWS",
+        summary: "前端、API、部署三段怎麼串，每個角色拿什麼權限，上線前檢查什麼。",
+      },
+    ],
   },
 ];
 

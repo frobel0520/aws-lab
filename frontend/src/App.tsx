@@ -21,7 +21,7 @@ function MapPage() {
         <p className="eyebrow">AWS Lab · 學習路線之一</p>
         <h1>在 AWS 上把生成式 AI 用對</h1>
         <p className="lede">
-          從 Amazon Bedrock 是什麼、怎麼用 Converse API 呼叫模型，到 token 費用與 Guardrails 防護。每個主題都用實際的請求格式說明，並附可以直接操作的實驗。
+          先搞懂 Amazon Bedrock 怎麼呼叫模型、怎麼計費與防護，再用 IAM、S3 + CloudFront、Lambda 與 GitHub Actions 把應用安全地放上 AWS。每個主題都用實際的請求格式與設定說明，並附可以直接操作的實驗。
         </p>
       </header>
 
@@ -83,6 +83,7 @@ function TopicPage({ topicId }: { topicId: string }) {
   const topic = READY_TOPICS[index];
   const prev = READY_TOPICS[index - 1];
   const next = READY_TOPICS[index + 1];
+  const trackTopics = READY_TOPICS.filter((candidate) => candidate.trackId === topic.trackId);
   const Content = TOPIC_CONTENT[topicId];
 
   return (
@@ -91,20 +92,25 @@ function TopicPage({ topicId }: { topicId: string }) {
         <a href="#/" className="sidebar-map">
           ← 課程地圖
         </a>
-        <ol>
-          {READY_TOPICS.map((candidate) => (
-            <li key={candidate.id}>
-              <a href={topicHref(candidate.id)} aria-current={candidate.id === topicId ? "page" : undefined}>
-                {candidate.title}
-              </a>
-            </li>
-          ))}
-        </ol>
+        {TRACKS.filter((track) => track.status === "ready").map((track) => (
+          <div key={track.id} className="sidebar-track">
+            <span className="sidebar-track-title">{track.title}</span>
+            <ol>
+              {track.topics.map((candidate) => (
+                <li key={candidate.id}>
+                  <a href={topicHref(candidate.id)} aria-current={candidate.id === topicId ? "page" : undefined}>
+                    {candidate.title}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))}
       </nav>
 
       <article className="article">
         <p className="eyebrow">
-          {topic.trackTitle} · {index + 1} / {READY_TOPICS.length}
+          {topic.trackTitle} · {trackTopics.indexOf(topic) + 1} / {trackTopics.length}
         </p>
         <h1>{topic.title}</h1>
         <Content />
@@ -123,7 +129,7 @@ function TopicPage({ topicId }: { topicId: string }) {
           )}
           {next ? (
             <a href={topicHref(next.id)} className="pager-next">
-              <span>下一個</span>
+              <span>{next.trackId === topic.trackId ? "下一個" : `下一條路線：${next.trackTitle}`}</span>
               {next.title}
             </a>
           ) : (
