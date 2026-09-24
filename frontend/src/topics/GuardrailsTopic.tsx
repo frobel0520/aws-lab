@@ -1,6 +1,19 @@
+import { CodeBlock } from "../components/CodeBlock";
 import { External, Note, PeerLink, Section, Table } from "../components/ui";
 import { GuardrailCostLab } from "../labs/GuardrailCostLab";
 import { PEER_SITES } from "../sites";
+
+const GROUNDING_CALL = `resp = client.converse(
+    modelId=MODEL_ID,
+    messages=[{
+        "role": "user",
+        "content": [
+            {"guardContent": {"text": {"text": source_text, "qualifiers": ["grounding_source"]}}},
+            {"guardContent": {"text": {"text": question, "qualifiers": ["query"]}}},
+        ],
+    }],
+    guardrailConfig={"guardrailIdentifier": GUARDRAIL_ID, "guardrailVersion": "1"},
+)`;
 
 export function GuardrailsTopic() {
   return (
@@ -49,10 +62,57 @@ export function GuardrailsTopic() {
             ["敏感資訊（模型偵測）", "偵測或遮蔽身分證號、信用卡號、Email 等個資", "收費"],
             ["敏感資訊（regex）", "用自訂 regex 比對", "免費"],
             ["字詞過濾", "自訂黑名單字詞", "免費"],
-            ["事實依據檢查", "檢查回答是否符合提供的資料，用來抓幻覺", "收費"],
+            ["事實依據檢查", "檢查回答是否符合提供的資料，用來抓幻覺（見下一段）", "收費"],
             ["自動推理檢查", "用形式邏輯規則驗證回答是否符合政策", "收費（按政策數）"],
           ]}
         />
+      </Section>
+
+      <Section title="事實依據檢查：抓幻覺">
+        <p>
+          正式名稱是 contextual grounding check。你提供一份<strong>參考資料</strong>和<strong>使用者的問題</strong>，它檢查模型的回答有沒有忠於資料、有沒有回答到問題。適合摘要、改寫，以及根據文件回答問題（RAG）；官方文件註明不支援聊天機器人式的多輪對話。
+        </p>
+        <Table
+          head={["檢查", "看什麼", "分數低代表"]}
+          rows={[
+            ["Grounding（有依據）", "回答是否都能在參考資料裡找到；回答中新冒出來的資訊一律算沒有依據", "模型自己編了內容"],
+            ["Relevance（有切題）", "回答是否針對使用者的問題", "內容沒錯，但答非所問"],
+          ]}
+        />
+        <p>以官方文件的例子來看：參考資料是「倫敦是英國首都，東京是日本首都」，問題是「日本首都是哪裡？」</p>
+        <Table
+          head={["模型回答", "有依據", "有切題"]}
+          rows={[
+            ["日本首都是東京", "是", "是"],
+            ["日本首都是倫敦", "否：跟資料不符", "是"],
+            ["英國首都是倫敦", "是", "否：沒回答問題"],
+            ["外面在下雨", "否", "否"],
+          ]}
+        />
+        <p>
+          每次回應都會得到兩個信心分數。兩項檢查各設一個門檻（0 到 0.99），<strong>分數低於門檻就擋下</strong>。門檻越高越嚴格：幻覺比較不會漏掉，但正常回答被誤擋的機會也會變多。
+        </p>
+        <p>
+          在 Converse 裡，用 <code>guardContent</code> 區塊的 <code>qualifiers</code> 標出哪段是參考資料、哪段是問題：
+        </p>
+        <CodeBlock code={GROUNDING_CALL} label="Python · boto3" />
+        <ul className="points">
+          <li>
+            <strong>只檢查輸出。</strong>它要拿模型的回答來比，所以不會作用在 prompt 上。
+          </li>
+          <li>
+            <strong>有長度上限。</strong>參考資料最多 100,000 字元、問題 1,000 字元、回答 5,000 字元。
+          </li>
+          <li>
+            <strong>標記的內容會被其他政策跳過。</strong>標成 <code>grounding_source</code> 或 <code>query</code> 的內容，不會再被內容過濾、個資偵測等政策檢查；也要檢查的話，在 qualifiers 加上 <code>guard_content</code>。
+          </li>
+          <li>
+            <strong>串流時可能晚一步。</strong>相關性是逐段檢查的，只要有一段相關，整個回答就算相關；不相關的內容可能已經串流給使用者，整段送完才被判定。
+          </li>
+        </ul>
+        <Note tone="warn">
+          它比對的是<strong>你給的資料</strong>，不是真實世界。參考資料本身有錯時，照著錯的資料回答照樣會通過；它能確保「回答忠於資料」，不能保證「回答是對的」。
+        </Note>
       </Section>
 
       <Section title="為什麼要使用者付費">
@@ -98,6 +158,11 @@ export function GuardrailsTopic() {
         <ul className="refs">
           <li>
             <External href="https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-use-converse-api.html">Use a guardrail with the Converse API</External>
+          </li>
+          <li>
+            <External href="https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-contextual-grounding-check.html">
+              Use contextual grounding check to filter hallucinations in responses
+            </External>
           </li>
           <li>
             <External href="https://aws.amazon.com/bedrock/pricing/">Amazon Bedrock 定價頁（Guardrails 段落）</External>
