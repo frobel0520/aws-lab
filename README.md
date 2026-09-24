@@ -2,7 +2,7 @@
 
 在 AWS 上使用生成式 AI 的繁體中文互動教材，分兩條路線：**Amazon Bedrock**（怎麼呼叫模型、怎麼計費與防護），以及**部署與權限**（用 IAM、S3 + CloudFront、Lambda 與 GitHub Actions OIDC 把應用安全地放上 AWS）。
 
-AWS Lab 是學習系列中的一條路線，和 [Software Engineering Workshop](https://frobel0520.github.io/software-engineering-workshop/)、[Guardrail Workshop](https://frobel0520.github.io/guardrail-workshop/)、[AI Agent Tutorial](https://frobel0520.github.io/AI-Agent-Tutorial/) 平行，由[學習總入口](https://frobel0520.github.io/)串起來。
+AWS Lab 是學習系列中的一條路線，和 [Software Engineering Workshop](https://frobel0520.github.io/software-engineering-workshop/)、[Guardrail Workshop](https://frobel0520.github.io/guardrail-workshop/)、[AI Agent Tutorial](https://frobel0520.github.io/AI-Agent-Tutorial/) 平行，由 [Learning Atlas](https://frobel0520.github.io/learning-atlas/) 串起來。
 
 ## 主題
 
