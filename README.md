@@ -1,12 +1,14 @@
 # AWS Lab
 
-在 AWS 上使用生成式 AI 的繁體中文互動教材，分兩條路線：**Amazon Bedrock**（怎麼呼叫模型、怎麼計費與防護），以及**部署與權限**（用 IAM、S3 + CloudFront、Lambda 與 GitHub Actions OIDC 把應用安全地放上 AWS）。
+> 在 AWS 上使用生成式 AI 的繁體中文互動教材，分兩條路線：**Amazon Bedrock**（怎麼呼叫模型、怎麼計費與防護），以及**部署與權限**（用 IAM、S3 + CloudFront、Lambda 與 GitHub Actions OIDC 把應用安全地放上 AWS）。
+
+## 概覽
 
 線上版：https://frobel0520.github.io/aws-lab/ （v0.2.0，兩條路線共 11 個主題已上線；進度見 [`docs/project-plan.md`](docs/project-plan.md)）
 
 AWS Lab 是學習系列中的一條路線，和 [Software Engineering Workshop](https://frobel0520.github.io/software-engineering-workshop/)、[Guardrail Workshop](https://frobel0520.github.io/guardrail-workshop/)、[AI Agent Tutorial](https://frobel0520.github.io/AI-Agent-Tutorial/) 平行，由 [Learning Atlas](https://frobel0520.github.io/learning-atlas/) 串起來。
 
-## 主題
+## 主要功能／內容
 
 ### Amazon Bedrock
 
@@ -30,6 +32,16 @@ AWS Lab 是學習系列中的一條路線，和 [Software Engineering Workshop](
 | 5 | 把 Bedrock 應用放上 AWS | — |
 
 所有實驗都在瀏覽器內以固定資料執行，**不呼叫 AWS、不需要任何憑證**。本站不內建模型單價；Guardrails 的預設單價取自 2026-09 的 AWS 定價頁，會標註來源日期。IAM 模擬器只處理單一帳號內身分型政策的 Effect、Action、Resource。
+
+## 現況與已知限制
+
+原 README 標示線上 v0.2.0，兩條路線共 11 個主題；課程進度以專案計畫與線上站為準。
+
+## 授權與來源
+
+Repository 根目錄未見授權檔；此 README 不另行宣告使用或再散布權利。
+
+---
 
 ## 本機啟動
 
