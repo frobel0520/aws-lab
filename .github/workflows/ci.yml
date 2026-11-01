@@ -6,11 +6,16 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   frontend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - uses: actions/setup-node@v4
         with:
@@ -21,6 +26,10 @@ jobs:
       - name: Install
         working-directory: frontend
         run: npm ci
+
+      - name: Dependency audit (high/critical fails)
+        working-directory: frontend
+        run: npm audit --audit-level=high
 
       - name: Test
         working-directory: frontend
